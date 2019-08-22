@@ -70,7 +70,6 @@ public class JHDetailActivity extends BaseActivity {
     private GifImageView mGiv;
     private int mCountForTime = 120;//倒计时
     private TextView mTvTimer;//倒计时文字显示
-    private TextView mTvDate;
     private UsbManager mUsbManager;
     private UsbDriver mUsbDriver;
     private UsbReceiver mUsbReceiver;
@@ -95,24 +94,8 @@ public class JHDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         getWindow().setLayout(1600, 1000);
-
-        //顶部渐变颜色
-        View viewTop = findViewById(R.id.divider_top);
-        ShadowDrawable.setShadowDrawable(viewTop, new int[]{
-                        Color.parseColor("#536DFE"), Color.parseColor("#7C4DFF")}, SizeUtils.dp2px(1),
-                Color.parseColor("#997C4DFF"), SizeUtils.dp2px(1), SizeUtils.dp2px(1), SizeUtils.dp2px(1));
-        //叫号内容
-//        TextView jhContent = findViewById(R.id.tv_jh_detail_content);
-//        ShadowDrawable.setShadowDrawable(jhContent, new int[]{
-//                        Color.parseColor("#536DFE"), Color.parseColor("#7C4DFF")},
-//                SizeUtils.dp2px(10),
-//                Color.parseColor("#997C4DFF"),
-//                SizeUtils.dp2px(6), SizeUtils.dp2px(10), SizeUtils.dp2px(10));
-        //叫号的刷身份证显示动画的控件
-//        mIvDh = findViewById(R.id.iv_jh_detail_dh);
         mGiv = findViewById(R.id.giv_jh_detail);
         mTvTimer = findViewById(R.id.tv_jh_detail_timer);
-        mTvDate = findViewById(R.id.tv_jh_detail_time);
         findViewById(R.id.iv_jh_detail_logo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,7 +145,6 @@ public class JHDetailActivity extends BaseActivity {
             }
         };
         timer.schedule(timerTask, 0, 1000);
-        initTime();
         initPrint();
     }
 
@@ -269,35 +251,6 @@ public class JHDetailActivity extends BaseActivity {
         return blnRtn;
     }
 
-    /**
-     * 初始化日期展示 年月日 周 时分秒
-     * yyyy-MM-dd HH:mm:ss
-     */
-    private void initTime() {
-        //每秒更新一次时间
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
-            @Override
-            public void run() {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Date date = new Date();
-                        String year = TimeUtils.date2String(date, "yyyy");
-                        String month = TimeUtils.date2String(date, "MM");
-                        String day = TimeUtils.date2String(date, "dd");
-                        String week = TimeUtils.getChineseWeek(date);
-                        String time = TimeUtils.date2String(date, "HH:mm:ss");
-                        final String finalTime = year + "年" + month + "月" + day + "日 " + week + " " + time;
-                        mTvDate.setText(finalTime);
-                    }
-                });
-            }
-        };
-
-        timer.schedule(timerTask, 0, 1000);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void saveSelectedYwToServer() {
         if (!NetworkUtils.isConnected()) {
@@ -376,7 +329,7 @@ public class JHDetailActivity extends BaseActivity {
     // 根据系统语言获取测试文本
     private void getStrDataByLanguage(JhResultBean jhResultBean) {
         if (Utils.isZh(this)) {
-            title = Constant.TITLE_CN;
+            title = Constant.TITLE_CN + jhResultBean.getDatas().getName();
         }
         num = jhResultBean.getDatas().getQunumber() + "\n\n";
     }
@@ -418,7 +371,7 @@ public class JHDetailActivity extends BaseActivity {
             String action = intent.getAction();
             if (UsbManager.ACTION_USB_DEVICE_ATTACHED.equals(action)) {
                 if (mUsbDriver.usbAttached(intent)) {
-                    UsbDevice device = (UsbDevice) intent
+                    UsbDevice device = intent
                             .getParcelableExtra(UsbManager.EXTRA_DEVICE);
                     if ((device.getProductId() == PID11 && device.getVendorId() == VENDORID)
                             || (device.getProductId() == PID13 && device.getVendorId() == VENDORID)
@@ -448,7 +401,7 @@ public class JHDetailActivity extends BaseActivity {
                 }
             } else if (ACTION_USB_PERMISSION.equals(action)) {
                 synchronized (this) {
-                    UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+                    UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
                     if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                         if ((device.getProductId() == PID11 && device.getVendorId() == VENDORID)
                                 || (device.getProductId() == PID13 && device.getVendorId() == VENDORID)
