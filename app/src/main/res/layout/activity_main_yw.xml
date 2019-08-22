@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main">
+
+    <View
+        android:id="@+id/divider_top"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#536DFE"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_main_yw_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="2018年9月10日 周二 15:31:21"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_main_yw_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider_top" />
+
+    <ImageView
+        android:id="@+id/iv_main_yw_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/logomine"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_main_yw_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_main_yw_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_main_yw_logo" />
+
+    <TextView
+        android:id="@+id/tv_main_vehicle_yw"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/sl_main_yw"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:text="@string/verhicle_yw"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_main_vehicle_man_yw"
+        app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+    <TextView
+        android:id="@+id/tv_main_vehicle_man_yw"
+        android:layout_width="400dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/sl_main_yw"
+        android:gravity="center"
+        android:padding="@dimen/dp_10"
+        android:text="@string/verhicle_man_yw"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_main_vehicle_yw"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/divider_top" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_main_yw_list"
+        android:layout_width="match_parent"
+        android:scrollbars="vertical"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_vehicle_man_yw" />
+
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_main_yw_introduce"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:text="@string/use_introduce"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider" />
+
+    <TextView
+
+        android:id="@+id/tv_main_yw_introduce_first"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/use_introduce_first"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_yw_introduce" />
+
+    <TextView
+        android:id="@+id/tv_main_yw_introduce_second"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:text="@string/use_introduce_second"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_main_yw_introduce_first" />
+
+
+    <TextView
+        android:id="@+id/bt_main_yw_sure"
+        android:layout_width="180dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="10dp"
+        android:drawableRight="@drawable/ic_right_arrow"
+        android:gravity="center"
+        android:text="@string/pick_num_first"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tv_main_yw_introduce_first" />
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main">
+
+    <View
+        android:id="@+id/divider_top_selected"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#536DFE"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_selected_yw_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="2018年9月10日 周二 15:31:21"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_selected_yw_name"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/divider_top" />
+
+    <ImageView
+        android:id="@+id/iv_selected_yw_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:src="@drawable/logomine"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_selected_yw_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_10"
+        android:text="@string/app_name"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_selected_yw_logo"
+        app:layout_constraintTop_toTopOf="@+id/iv_selected_yw_logo" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_selected_yw_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintTop_toBottomOf="@+id/divider_top_selected" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@android:color/holo_orange_dark"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_selected_yw_next_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@drawable/pr_page"
+        android:padding="@dimen/dp_10"
+        android:text="@string/next_page"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/divider"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_selected_yw_last_page" />
+
+
+    <TextView
+        android:id="@+id/tv_selected_yw_last_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dp_10"
+        android:background="@drawable/pr_page"
+        android:padding="@dimen/dp_10"
+        android:text="@string/last_page"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_selected_yw_next_page"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_selected_yw_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/fanhui_btn"
+        android:drawablePadding="@dimen/dp_10"
+        android:padding="16dp"
+        android:text="@string/back_four"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tv_selected_yw_clear_all" />
+
+
+    <TextView
+        android:id="@+id/tv_selected_yw_clear_all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/quanbu_yichu"
+        android:drawablePadding="@dimen/dp_10"
+        android:padding="16dp"
+        android:text="@string/clear_all"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintRight_toLeftOf="@+id/bt_selected_yw_picknum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/tv_selected_yw_back" />
+
+    <TextView
+        android:id="@+id/bt_selected_yw_picknum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/quhao"
+        android:drawablePadding="@dimen/dp_10"
+        android:padding="16dp"
+        android:text="@string/pick_num"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toRightOf="@+id/tv_selected_yw_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!--vip通道-->
+    <TextView
+        android:id="@+id/bt_selected_yw_vip_pick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:drawableLeft="@drawable/lvse_tongdao"
+        android:drawablePadding="@dimen/dp_10"
+        android:padding="16dp"
+        android:text="@string/vip_pass"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        app:layout_constraintLeft_toRightOf="@+id/bt_selected_yw_picknum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>
