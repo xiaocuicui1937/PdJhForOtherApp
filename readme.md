@@ -7,6 +7,7 @@ rsa和aes使用的方法如下:
 将被加密的内容，以及AES密钥和RSA公钥进行传输到服务器解密内容
 #-----------------------------------------------下面是具体的代码实现-----------------------------------------------
 //获取Rsa公钥，用来加密Aes的key，AES用来加密传输的内容
+
         RSAPublicKey publicKey = null;
         String encryptAESkey = null;
         String encryptRSAKey = null;
