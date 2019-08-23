@@ -85,7 +85,7 @@ public class Constant {
 
     // 小票打印文字中英文对照
     public static int ADD_NUM = 1000;
-    public static String TITLE_CN = "石家庄车辆管理所第一分所\n\n" + "办理业务\n\n";
+    public static String TITLE_CN = "石家庄车辆管理所第一分所\n\n" + "办理业务窗口\n\n";
     public static String TITLE_US = "Agricultural Bank China\n\n" + "Transact business (1)\n\n";
     public static String QUEUE_NUMBER = "S1001\n\n";
     public static String STRDATA_CN_BEFORE = "您前面有";

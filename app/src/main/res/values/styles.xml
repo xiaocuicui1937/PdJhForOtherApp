@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+
     <!--测试print-->
     <!-- 按钮字体大小、颜色 -->
     <style name="TextStyle01">
@@ -76,4 +77,6 @@
         <!--是否允许对话框变暗-->
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+
 </resources>

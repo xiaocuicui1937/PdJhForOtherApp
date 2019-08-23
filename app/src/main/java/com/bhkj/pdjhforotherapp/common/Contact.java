@@ -2,11 +2,12 @@ package com.bhkj.pdjhforotherapp.common;
 
 public class Contact {
     //    public static final String BASE_URL = "http://192.168.1.101:80";
-    public static final String BASE_URL = "http://192.168.1.104:8080/queue/";
-
-        public static final String GET_ALL_YW = "takenum/getOwnerid";
-//    public static final String GET_ALL_YW = "/queue/owner1.json";
-//    public static final String GET_ALL_YW2 = "/queue/owner1.json";
+    public static final String BASE_URL = "http://192.168.1.100:8080/queue/";
+    //获取业务类型
+    public static final String GET_YW_TYPE = BASE_URL+"takenum/getOwner";
+//        public static final String GET_ALL_YW = "takenum/getOwnerid";
+    public static final String GET_ALL_YW = "/queue/owner1.json";
+    public static final String GET_ALL_YW2 = "/queue/owner1.json";
     //    public static final String GET_ALL_YW = "/takenum/getAllByOwner";
     //保存选择业务到服务器上
     public static final String SAVE_YW_TO_SERVEr = "takenum/saveUserOptionQueue";
@@ -31,4 +32,6 @@ public class Contact {
     public static final String JDC_YW_DATA = "jdc_yw_data";
     //保存驾驶人业务
     public static final String JSR_YW_DATA = "jsr_yw_data";
+    //保存业务id
+    public static final String SAVE_YWID = "ywid";
 }

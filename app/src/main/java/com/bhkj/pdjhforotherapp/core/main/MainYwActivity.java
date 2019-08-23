@@ -1,6 +1,7 @@
 package com.bhkj.pdjhforotherapp.core.main;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,12 +23,14 @@ import com.bhkj.pdjhforotherapp.common.bean.MainYwAllBean;
 import com.bhkj.pdjhforotherapp.common.bean.MainYwBean;
 import com.bhkj.pdjhforotherapp.common.parse.GsonProvider;
 import com.bhkj.pdjhforotherapp.common.reservoir.ReservoirUtils;
+import com.bhkj.pdjhforotherapp.common.simpledisk.DiskLruCache;
 import com.bhkj.pdjhforotherapp.common.simpledisk.DiskLruCacheHelper;
 import com.bhkj.pdjhforotherapp.common.utils.Tools;
 import com.bhkj.pdjhforotherapp.common.utils.UpdateUtil;
 import com.bhkj.pdjhforotherapp.common.view.ShadowDrawable;
 import com.bhkj.pdjhforotherapp.core.base.BaseActivity;
 import com.bhkj.pdjhforotherapp.core.sure.SelectedYwSureActivity;
+import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.TimeUtils;
@@ -117,6 +120,7 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
         setButtonWithJBColor(true);
         initTime();
         initRecyclerView();
+        getYwType();
     }
 
     /**
@@ -204,8 +208,6 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
         mainYwAdapter.setCurrentPageCountAndYwlx(mYwId);
         mRv.setAdapter(mainYwAdapter);
         mainYwAdapter.bindToRecyclerView(mRv);
-        getAllYw(mYwId);
-
     }
 
     /**
@@ -325,7 +327,9 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
         //添加驾驶人业务
         String resJsr = DiskLruCacheHelper.getInstance().getAsString(Contact.JSR_YW_PARAM);
         if (ObjectUtils.isNotEmpty(resJdc) && !resJdc.equals("{}") || ObjectUtils.isNotEmpty(resJsr) && !resJsr.equals("{}")) {
+
             startActivity(new Intent(MainYwActivity.this, SelectedYwSureActivity.class));
+            overridePendingTransition(R.anim.left_to_right, R.anim.right_to_left);
         } else {
             showTip(getString(R.string.empty_selected_tip));
         }
@@ -360,7 +364,7 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
         setButtonWithJBColor(b);
         mYwId = s;
         mYwParam = jdcYwParam;
-        getAllYw(mYwId);
+        getYwType();
     }
 
     private void showTip(String tip) {
@@ -372,6 +376,43 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
                     }
                 })).show(this);
 
+    }
+
+    /**
+     * 获取业务id，用来区分驾驶人业务和机动车业务
+     * 判断一下ywid如果是空的话，就去重新获取如果不是空从缓存中读取
+     */
+    @TargetApi(Build.VERSION_CODES.O)
+    private void getYwType() {
+        if (!NetworkUtils.isConnected()) {
+            showTip(getString(R.string.tip_connect_net_content));
+            return;
+        }
+        if (ObjectUtils.isNotEmpty(getYwIdFromCache())) {
+            getAllYw(mYwId);
+            return;
+        }
+        String deiviceId = Tools.getDeviceId();
+        EasyHttp.get(Contact.GET_YW_TYPE)
+                .params("key", deiviceId)
+                .params("rsa", Tools.encodeRsa(deiviceId))
+                .execute(new SimpleCallBack<String>() {
+                    @Override
+                    public void onError(ApiException e) {
+                        showTip("访问服务器失败", "错误信息" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(String s) {
+                        //获取真正的ywid,保存到本地，定义一个中间变量来区分切换的业务类型
+                        //如果缓存不为空的话，就直接从缓存中取出业务类型用于接口中的传递
+                        getAllYw(mYwId);
+                    }
+                });
+    }
+
+    private String getYwIdFromCache() {
+        return DiskLruCacheHelper.getInstance().getAsString(Contact.SAVE_YWID);
     }
 }
 

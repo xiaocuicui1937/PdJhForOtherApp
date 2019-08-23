@@ -83,6 +83,18 @@ public class SelectedYwSureActivity extends BaseActivity implements View.OnClick
         TextView clearAllTv = findViewById(R.id.tv_selected_yw_clear_all);
         clearAllTv.setOnClickListener(this);
         //按钮渐变色
+        setShadowForView(pickNum, back, vipTvPickup, clearAllTv);
+    }
+
+    /**
+     * 给view添加阴影效果
+     *
+     * @param pickNum
+     * @param back
+     * @param vipTvPickup
+     * @param clearAllTv
+     */
+    private void setShadowForView(TextView pickNum, TextView back, TextView vipTvPickup, TextView clearAllTv) {
         ShadowDrawable.setShadowDrawable(pickNum, new int[]{
                         Color.parseColor("#CE9FFC"), Color.parseColor("#7367F0")},
                 SizeUtils.dp2px(6),
@@ -198,19 +210,17 @@ public class SelectedYwSureActivity extends BaseActivity implements View.OnClick
             case R.id.bt_selected_yw_picknum:
                 toJhDetail(Contact.COMMON_WINDOW);
                 break;
-            case R.id.tv_selected_yw_next_page:
-                finish();
-                break;
             case R.id.tv_selected_yw_back:
                 finish();
+                overridePendingTransition(R.anim.right_to_left,R.anim.left_to_right);
                 break;
             //清除所有选中的业务
             case R.id.tv_selected_yw_clear_all:
                 clearAllYwTip();
                 break;
-                //检查版本更新
+            //检查版本更新
             case R.id.iv_selected_yw_logo:
-                UpdateUtil.checkUpdate(this,true);
+                UpdateUtil.checkUpdate(this, true);
                 break;
             case R.id.bt_selected_yw_vip_pick:
                 toJhDetail(Contact.VIP_WINDOW);
@@ -234,8 +244,8 @@ public class SelectedYwSureActivity extends BaseActivity implements View.OnClick
         }
         String queueBusinessJson = GsonProvider.getInstance().getGson().toJson(queueBusinesses);
         Intent intent = new Intent(this, JHDetailActivity.class);
-        intent.putExtra(Contact.SURE_YW,queueBusinessJson);
-        intent.putExtra(Contact.QHTYPE,qhType);
+        intent.putExtra(Contact.SURE_YW, queueBusinessJson);
+        intent.putExtra(Contact.QHTYPE, qhType);
         startActivity(intent);
     }
 
@@ -259,8 +269,6 @@ public class SelectedYwSureActivity extends BaseActivity implements View.OnClick
                     }
                 })).show(this);
     }
-
-
 
 
 }

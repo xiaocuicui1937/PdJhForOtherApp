@@ -131,9 +131,10 @@ public class JHDetailActivity extends BaseActivity {
                     public void run() {
                         mCountForTime--;
                         if (mCountForTime == 100) {
-//                            if (gifDrawable != null) {
-//                                mGiv.setImageResource(R.drawable.gif_read_data);
-//                            }
+                            //当刷身份证的时候来显示正在读取身份证信息，需要判断一下gif在播放状态
+                            if (gifDrawable != null&&gifDrawable.isPlaying()) {
+                                mGiv.setImageResource(R.drawable.gif_read_data);
+                            }
                         }
                         //到0秒后自动关闭界面返回上一页
                         if (mCountForTime == 0) {
