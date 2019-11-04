@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.bhkj.pdjhforotherapp.R;
 import com.bhkj.pdjhforotherapp.common.Contact;
 import com.bhkj.pdjhforotherapp.common.bean.MainYwAllBean;
 import com.bhkj.pdjhforotherapp.common.bean.MainYwBean;
+import com.bhkj.pdjhforotherapp.common.bean.YwIdBean;
 import com.bhkj.pdjhforotherapp.common.parse.GsonProvider;
 import com.bhkj.pdjhforotherapp.common.reservoir.ReservoirUtils;
 import com.bhkj.pdjhforotherapp.common.simpledisk.DiskLruCache;
@@ -30,11 +32,13 @@ import com.bhkj.pdjhforotherapp.common.utils.UpdateUtil;
 import com.bhkj.pdjhforotherapp.common.view.ShadowDrawable;
 import com.bhkj.pdjhforotherapp.core.base.BaseActivity;
 import com.bhkj.pdjhforotherapp.core.sure.SelectedYwSureActivity;
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.blankj.utilcode.util.ObjectUtils;
 import com.blankj.utilcode.util.SizeUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.zhouyou.http.EasyHttp;
 import com.zhouyou.http.callback.SimpleCallBack;
@@ -70,6 +74,7 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
     private TextView mTvVehicleMan;
     private Badge mBadgeVehicleYw;
     private Badge mBadgeVehicleMan;
+    private List<YwIdBean.DatasBean> ywIdBeanDatas;
 
     @Override
     public int getLayoutId() {
@@ -117,6 +122,8 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     public void initData() {
+//        Glide.with(this).load().into()
+//        mTvVehicleYw.setCompoundDrawables();
         setButtonWithJBColor(true);
         initTime();
         initRecyclerView();
@@ -297,11 +304,11 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
         switch (viewId) {
             //机动车业务
             case R.id.tv_main_vehicle_yw:
-                handleYw(true, false, "1", Contact.JDC_YW_PARAM);
+                handleYw(true, false, ywIdBeanDatas.get(0).getId(), Contact.JDC_YW_PARAM);
                 break;
             //驾驶人业务
             case R.id.tv_main_vehicle_man_yw:
-                handleYw(false, true, "2", Contact.JSR_YW_PARAM);
+                handleYw(false, true, ywIdBeanDatas.get(1).getId(), Contact.JSR_YW_PARAM);
                 break;
             //确认
             case R.id.bt_main_yw_sure:
@@ -389,11 +396,13 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
             return;
         }
         if (ObjectUtils.isNotEmpty(getYwIdFromCache())) {
+            ywIdBeanDatas = getYwIdFromCache();
             getAllYw(mYwId);
             return;
         }
+
         String deiviceId = Tools.getDeviceId();
-        EasyHttp.get(Contact.GET_YW_TYPE)
+        EasyHttp.get(Contact.GET_YW_ID)
                 .params("key", deiviceId)
                 .params("rsa", Tools.encodeRsa(deiviceId))
                 .execute(new SimpleCallBack<String>() {
@@ -406,13 +415,28 @@ public class MainYwActivity extends BaseActivity implements View.OnClickListener
                     public void onSuccess(String s) {
                         //获取真正的ywid,保存到本地，定义一个中间变量来区分切换的业务类型
                         //如果缓存不为空的话，就直接从缓存中取出业务类型用于接口中的传递
-                        getAllYw(mYwId);
+                        Log.i("业务","内容:"+s);
+                        YwIdBean ywIdBean = GsonProvider.getInstance().getGson().fromJson(s, YwIdBean.class);
+                        if (ywIdBean.isSuccess()) {
+                            ywIdBeanDatas = ywIdBean.getDatas();
+                            mYwId = ywIdBeanDatas.get(0).getId();
+                            //保存业务idarray
+                            DiskLruCacheHelper.getInstance().put(Contact.SAVE_YWID, s);
+                            getAllYw(mYwId);
+                        } else {
+                            showTip("错误信息", ywIdBean.getMessage());
+                        }
                     }
                 });
     }
 
-    private String getYwIdFromCache() {
-        return DiskLruCacheHelper.getInstance().getAsString(Contact.SAVE_YWID);
+    private List<YwIdBean.DatasBean> getYwIdFromCache() {
+        String ywidStr = DiskLruCacheHelper.getInstance().getAsString(Contact.SAVE_YWID);
+        if (ObjectUtils.isEmpty(ywidStr)){
+            return null;
+        }
+        YwIdBean ywIdBean = GsonProvider.getInstance().getGson().fromJson(ywidStr, YwIdBean.class);
+        return ywIdBean.getDatas();
     }
 }
 

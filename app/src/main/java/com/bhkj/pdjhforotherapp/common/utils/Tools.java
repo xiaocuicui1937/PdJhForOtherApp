@@ -9,6 +9,7 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.bhkj.pdjhforotherapp.app.App;
+import com.blankj.utilcode.util.AppUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
